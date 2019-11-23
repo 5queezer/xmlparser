@@ -3,8 +3,13 @@ from XPath import XPath
 from unittest.mock import MagicMock
 from io import StringIO
 import sys
+import xml.etree.ElementTree as ET
 
-contents = "<div></div>\n"
+contents = "<div><a></a><a></a></div>\n"
+
+@pytest.fixture
+def xpath():
+    return XPath()
 
 @pytest.fixture
 def mock_stdin(monkeypatch):
@@ -27,17 +32,18 @@ def mock_open(monkeypatch):
     print("\nfile close")
 
 @pytest.mark.skip
-def test_CanReadFromStdin(mock_stdin):
-    xpath = XPath()
+def test_CanReadFromStdin(xpath, mock_stdin):
     result = xpath.readStdin()
     mock_stdin.assert_called_once()
     assert result == contents
 
-def test_CanReadFromFile(mock_open):
-    xpath = XPath()
-    result = xpath.readFile("foo.txt")
+def test_CanReadFromFile(xpath, mock_open):
+    result = xpath.loadFile("foo.txt")
     mock_open.assert_called_once_with("foo.txt", "r")
     assert result == contents
 
-def test_CanLoadInputIntoXMLParser(monkeypatch):
-    pass
+def test_CanLoadInputIntoXMLParser(xpath, mock_open):
+    raw = xpath.loadFile("foo.txt")
+    mock_open.assert_called_once_with("foo.txt", "r")
+    root = xpath.loadXML(raw)
+    assert root.tag == ET.fromstring(contents).tag
