@@ -6,7 +6,7 @@ class XPath:
         self.stdin = sys.stdin
 
     def readStdin(self):
-        return self.stdin.read()
+        return self.stdin.readline()
 
     def readFile(self, filename):
         infile = open(filename, "r")
