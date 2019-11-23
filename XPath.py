@@ -6,6 +6,7 @@ class XPath:
     def __init__(self):
         self.stdin = sys.stdin
         self.raw = ''
+        self.root = None
 
     def readStdin(self):
         return self.stdin.readline()
@@ -17,4 +18,8 @@ class XPath:
 
     def loadXML(self, raw):
         self.root = ET.fromstring(raw)
-        return self.root
+
+    def toXML(self):
+        return ET.tostring(self.root)
+
+

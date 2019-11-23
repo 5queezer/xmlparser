@@ -1,7 +1,7 @@
 1. Can read from STDIN
 X. Can read from file
 X. Can load inputstream into XML Parser
-4. Can Output the XML
+X. Can Output the XML
 5. Can Output Json
 6. Can do an element Query <element/>
 7. Can query 1 attribute
